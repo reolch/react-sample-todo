@@ -1,21 +1,34 @@
 import { useState } from "react";
+import * as _ from "lodash";
 
 function App() {
-  const initialTodosState = [
-    {
-      task: 'initialTask'
-    }
-  ];
-  const [todos, setTodos] = useState(initialTodosState);
-  const [task, setTask] = useState('');
+  const [ todos, setTodos ] = useState([]);
+  const [ task, setTask ] = useState('');
 
   const handleChangeText = (e) => {
     setTask(e.target.value);
   }
 
   const handleSendButton = () => {
-    const todo = { task: task }
+    const todo = { 
+      id: crypto.randomUUID(),
+      task: task 
+    }
     const newTodos = [...todos, todo]
+    setTodos(newTodos);
+  }
+
+  const handleDeleteButton = (id) => {
+    console.log(id);
+    console.log(todos);
+    const newTodos = [...todos];
+    
+    todos.forEach((todo, index) => {
+      if (todo.id === id) {
+        newTodos.splice(index, 1);
+      }
+    });
+    console.log('new' + newTodos);
     setTodos(newTodos);
   }
 
@@ -25,11 +38,13 @@ function App() {
       <button onClick={handleSendButton}>送信</button>
       <ul>
         {
-        todos.map((todo, index) => (
-          <li id={index}>{todo.task}</li>
-        ))
+          todos.map((todo, index) => (
+            <div>
+              <li id={index}>{todo.task}</li>
+              <button onClick={() => handleDeleteButton(todo.id)}>削除</button>
+            </div>
+          ))
         }
-
       </ul>
     </div>
   );
