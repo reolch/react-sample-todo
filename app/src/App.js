@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const initialTodosState = [
+    {
+      task: 'initialTask'
+    }
+  ];
+  const [todos, setTodos] = useState(initialTodosState);
+  const [task, setTask] = useState('');
+
+  const handleChangeText = (e) => {
+    setTask(e.target.value);
+  }
+
+  const handleSendButton = () => {
+    const todo = { task: task }
+    const newTodos = [...todos, todo]
+    setTodos(newTodos);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input onChange={handleChangeText} />
+      <button onClick={handleSendButton}>送信</button>
+      <ul>
+        {
+        todos.map((todo, index) => (
+          <li id={index}>{todo.task}</li>
+        ))
+        }
+
+      </ul>
     </div>
   );
 }
