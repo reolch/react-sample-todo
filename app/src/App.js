@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as _ from "lodash";
+import { cloneDeep } from "lodash";
 
 function App() {
   const [ todos, setTodos ] = useState([]);
@@ -21,7 +21,7 @@ function App() {
   const handleDeleteButton = (id) => {
     console.log(id);
     console.log(todos);
-    const newTodos = [...todos];
+    const newTodos = cloneDeep(todos);
     
     todos.forEach((todo, index) => {
       if (todo.id === id) {
