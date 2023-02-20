@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { cloneDeep } from "lodash";
+import Task from "./components/Task";
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [task, setTask] = useState('');
 
-  const handleChangeText = (e) => {
-    setTask(e.target.value);
+  const handleChangeText = (event) => {
+    setTask(event.target.value);
   }
 
   const handleChangeEditText = (event, id) => {
     const newTodos = cloneDeep(todos);
-
     todos.forEach((todo, index) => {
       if (todo.id === id) {
         todo.task = event.target.value;
         newTodos.splice(index, 1, todo);
       }
     });
-    
     setTodos(newTodos);
   }
 
@@ -32,16 +31,12 @@ function App() {
   }
 
   const handleDeleteButton = (id) => {
-    console.log(id);
-    console.log(todos);
     const newTodos = cloneDeep(todos);
-
     todos.forEach((todo, index) => {
       if (todo.id === id) {
         newTodos.splice(index, 1);
       }
     });
-    console.log('new' + newTodos);
     setTodos(newTodos);
   }
 
@@ -52,10 +47,7 @@ function App() {
       <ul>
         {
           todos.map((todo, index) => (
-            <div key={index}>
-              <li id={index}><input type='text' onChange={(event) => handleChangeEditText(event, todo.id)} value={todo.task}></input></li>
-              <button onClick={() => handleDeleteButton(todo.id)}>削除</button>
-            </div>
+            <Task key={index} index={index} todo={todo} handleChangeEditText={handleChangeEditText} handleDeleteButton={handleDeleteButton}></Task>
           ))
         }
       </ul>
